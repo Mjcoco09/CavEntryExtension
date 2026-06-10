@@ -1,0 +1,104 @@
+.autofill-widget {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 320px;
+    background: rgba(255, 255, 255, 0.98);
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    z-index: 2147483647;
+    transition: transform 0.2s, box-shadow 0.2s;
+    overflow: hidden;
+    resize: both;
+    min-width: 300px;
+    min-height: 200px;
+}
+
+.widget-header {
+    padding: 14px 16px;
+    background: linear-gradient(135deg, #6c5ce7, #0984e3);
+    color: white;
+    cursor: move;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    user-select: none;
+}
+
+.widget-title {
+    font-weight: 600;
+    font-size: 15px;
+    letter-spacing: 0.5px;
+}
+
+.widget-close {
+    cursor: pointer;
+    font-size: 20px;
+    line-height: 1;
+    transition: transform 0.2s;
+}
+
+.widget-close:hover {
+    transform: scale(1.2);
+}
+
+.widget-body {
+    padding: 16px;
+    display: grid;
+    gap: 14px;
+}
+
+.input-group {
+    display: grid;
+    gap: 6px;
+}
+
+.input-label {
+    font-size: 13px;
+    color: #555;
+    font-weight: 500;
+}
+
+.input-field {
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: all 0.2s;
+    background: rgba(255, 255, 255, 0.8);
+}
+
+.input-field:focus {
+    outline: none;
+    border-color: #6c5ce7;
+    box-shadow: 0 0 0 2px rgba(108, 92, 231, 0.2);
+}
+
+.run-button {
+    background: linear-gradient(135deg, #00b894, #00cec9);
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.2s;
+    margin-top: 8px;
+}
+
+.run-button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 184, 148, 0.3);
+}
+
+.widget-dragging {
+    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.2);
+    cursor: grabbing !important;
+}
+
+.widget-header:active {
+    cursor: grabbing;
+}

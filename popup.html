@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+      :root {
+            --primary: #7c6cf7;
+            --primary-hover: #6a5adf;
+            --background: #0f172a;
+            --surface: #1e293b;
+            --text: #f8fafc;
+            --text-secondary: #94a3b8;
+            --border: #334155;
+            --error: #ef4444;
+            --success: #22c55e;
+            --radius: 12px;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            width: 340px;
+            padding: 20px;
+            background: var(--background);
+            color: var(--text);
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .title {
+            font-size: 20px;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--surface);
+            transition: var(--transition);
+            border-radius: 999px;
+        }
+
+        .slider:before {
+            content: "";
+            position: absolute;
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background: var(--text);
+            transition: var(--transition);
+            border-radius: 50%;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        input:checked + .slider {
+            background: var(--primary);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(20px);
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 16px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text);
+            font-size: 14px;
+            transition: var(--transition);
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(124, 108, 247, 0.2);
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(45deg, var(--primary), #8b5cf6);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        button:hover {
+            background: linear-gradient(45deg, var(--primary-hover), #7c3aed);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(124, 108, 247, 0.2);
+        }
+
+        .autocomplete {
+            position: relative;
+        }
+
+        .autocomplete-items {
+            position: absolute;
+            width: 100%;
+            max-height: 180px;
+            overflow-y: auto;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin-top: 4px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+            z-index: 1000;
+            display: none;
+        }
+
+        .autocomplete-item {
+            padding: 12px 16px;
+            color: var(--text);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 14px;
+        }
+
+        .autocomplete-item:hover {
+            background: rgba(124, 108, 247, 0.1);
+        }
+
+        .autocomplete-item:not(:last-child) {
+            border-bottom: 1px solid var(--border);
+        }
+
+        #errorContainer {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            padding: 16px;
+            background: linear-gradient(45deg, #ef4444, #dc2626);
+            color: white;
+            border-radius: 8px;
+            display: none;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(100%); opacity: 0 }
+            to { transform: translateY(0); opacity: 1 }
+        }
+
+        #errorClose {
+            background: rgba(255,255,255,0.2) !important;
+            border: none !important;
+            color: white;
+            cursor: pointer;
+            padding: 4px 10px !important;
+            margin-left: auto;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            width: auto !important;
+        }
+        
+        #errorClose:hover {
+            background: rgba(255,255,255,0.3) !important;
+        }
+        body {
+    width: 320px;  /* Reduced from 340px */
+    padding: 16px;  /* Reduced from 20px */
+    /* Rest remains the same */
+}
+
+.input-group {
+    margin-bottom: 16px;  /* Reduced from 20px */
+}
+
+input {
+    padding: 10px 14px;  /* Reduced from 12px 16px */
+    font-size: 13px;  /* Slightly smaller text */
+}
+
+button {
+    padding: 12px;  /* Reduced from 14px */
+    font-size: 13px;
+}
+
+.autocomplete-item {
+    padding: 10px 14px;  /* Reduced from 12px 16px */
+    font-size: 13px;
+}
+
+/* Add this to prevent overflow */
+.autocomplete-items {
+    width: calc(100% - 2px); /* Account for border */
+}
+
+/* Ensure all elements use border-box */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+/* Add scroll if content exceeds height */
+body {
+    max-height: 600px;
+    overflow-y: auto;
+}
+/* Add to existing styles */
+#clearButton {
+    background: #ef4444 !important;
+    margin-top: 10px;
+}
+
+#clearButton:hover {
+    background: #dc2626 !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+.presets-section {
+    margin-bottom: 20px;
+    padding: 12px;
+    background: rgba(124, 108, 247, 0.1);
+    border-radius: 8px;
+    border: 1px solid var(--border);
+}
+
+.presets-section label {
+    margin-bottom: 10px;
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.presets-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.presets-row select {
+    flex: 1;
+    padding: 10px 12px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.presets-row select:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+.presets-row input {
+    flex: 1;
+    margin-bottom: 0;
+}
+
+.presets-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.preset-btn {
+    flex: 1;
+    padding: 8px 12px !important;
+    font-size: 12px !important;
+    font-weight: 600;
+    border-radius: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.presets-row .preset-btn {
+    flex: none;
+    width: auto;
+    padding: 10px 16px !important;
+}
+
+.load-btn {
+    background: linear-gradient(45deg, var(--primary), #8b5cf6) !important;
+}
+
+.load-btn:hover {
+    background: linear-gradient(45deg, var(--primary-hover), #7c3aed) !important;
+}
+
+.save-btn {
+    background: linear-gradient(45deg, #22c55e, #16a34a) !important;
+}
+
+.save-btn:hover {
+    background: linear-gradient(45deg, #16a34a, #15803d) !important;
+}
+
+.delete-btn {
+    background: linear-gradient(45deg, #ef4444, #dc2626) !important;
+}
+
+.delete-btn:hover {
+    background: linear-gradient(45deg, #dc2626, #b91c1c) !important;
+}
+
+.datetime-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.datetime-header label {
+    margin-bottom: 0;
+}
+
+.add-slot-btn {
+    width: auto !important;
+    padding: 4px 12px !important;
+    font-size: 12px !important;
+    background: linear-gradient(45deg, #22c55e, #16a34a) !important;
+    border-radius: 6px;
+}
+
+.add-slot-btn:hover {
+    background: linear-gradient(45deg, #16a34a, #15803d) !important;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+.datetime-row {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.datetime-row input {
+    flex: 1;
+    margin-bottom: 0;
+    padding: 10px 12px;
+    width: auto;
+}
+
+.remove-datetime {
+    width: auto !important;
+    padding: 8px 11px !important;
+    font-size: 16px !important;
+    line-height: 1;
+    background: linear-gradient(45deg, #ef4444, #dc2626) !important;
+    border-radius: 6px;
+    flex-shrink: 0;
+    transform: none !important;
+}
+
+.remove-datetime:hover {
+    background: linear-gradient(45deg, #dc2626, #b91c1c) !important;
+    box-shadow: none !important;
+    transform: none !important;
+}
+
+#queuePanel {
+    display: none;
+}
+
+.queue-badge {
+    display: block;
+    text-align: center;
+    background: rgba(124, 108, 247, 0.12);
+    border: 1px solid var(--primary);
+    color: var(--primary);
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    letter-spacing: 0.2px;
+}
+
+.queue-details {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.queue-detail-row {
+    display: flex;
+    gap: 10px;
+    align-items: baseline;
+    font-size: 14px;
+}
+
+.queue-detail-row span {
+    color: var(--text-secondary);
+    min-width: 80px;
+    font-size: 13px;
+    flex-shrink: 0;
+}
+
+.queue-detail-row strong {
+    color: var(--text);
+    word-break: break-word;
+}
+
+.queue-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.proceed-btn {
+    background: linear-gradient(45deg, #22c55e, #16a34a) !important;
+}
+
+.proceed-btn:hover {
+    background: linear-gradient(45deg, #16a34a, #15803d) !important;
+}
+
+.queue-cancel-btn {
+    background: linear-gradient(45deg, #ef4444, #dc2626) !important;
+}
+
+.queue-cancel-btn:hover {
+    background: linear-gradient(45deg, #dc2626, #b91c1c) !important;
+}
+    </style>
+</head>
+<body>
+    <!-- Main Form -->
+    <div id="mainForm">
+    <div class="header">
+        <h3>Autofill Pro</h3>
+        <label class="switch">
+            <input type="checkbox" id="autoSubmit">
+            <span class="slider"></span>
+        </label>
+    </div>
+
+    <div class="input-group">
+        <label for="consumerName">Consumer Name</label>
+        <div class="autocomplete">
+            <input type="text" id="consumerName" placeholder="Enter consumer name" autocomplete="off">
+            <div class="autocomplete-items" id="consumerSuggestions"></div>
+        </div>
+    </div>
+
+    <div class="input-group">
+        <label for="staffName">Staff Name</label>
+        <div class="autocomplete">
+            <input type="text" id="staffName" placeholder="Start typing staff name" autocomplete="off">
+            <div class="autocomplete-items" id="staffSuggestions"></div>
+        </div>
+    </div>
+
+    <div class="input-group">
+        <div class="datetime-header">
+            <label>Date & Time</label>
+            <button type="button" id="addDateTime" class="add-slot-btn">+ Add Slot</button>
+        </div>
+        <div id="dateTimeList"></div>
+    </div>
+
+    <div class="presets-section">
+        <label>Presets</label>
+        <div class="presets-row">
+            <select id="presetSelect">
+                <option value="">-- Select a preset --</option>
+            </select>
+        </div>
+        <div class="presets-actions">
+            <button type="button" id="loadPreset" class="preset-btn load-btn">Load</button>
+            <button type="button" id="deletePreset" class="preset-btn delete-btn">Delete</button>
+        </div>
+        <div class="presets-row" style="margin-top: 10px;">
+            <input type="text" id="presetName" placeholder="Enter preset name">
+            <button type="button" id="savePreset" class="preset-btn save-btn">Save</button>
+        </div>
+    </div>
+
+    <button id="runButton">Run Autofill</button>
+    <button id="clearButton" style="margin-top: 10px; background: #ef4444;">Clear Saved Data</button>
+    </div><!-- end mainForm -->
+
+    <div id="errorContainer">
+        <span id="errorMessage"></span>
+        <button id="errorClose">X</button>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+</html>
